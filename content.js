@@ -19,29 +19,16 @@ for (var i = 0; i < elements.length; i++) {
 
             // element.className="pos-rel";
             var text = element.textContent;
-            doTheThing(element, text, highlight);
-                }
-
+            console.log(text);
             // var neg_highlight = document.createElement('div');
             // neg_highlight.className="neg-highlight";
             // var pos_highlight = document.createElement('div');
             // pos_highlight.className="pos-highlight";
             // console.log(text);
-            function doTheThing(el,t){
-              getSentiment(t).then(function(sentiment){
-                console.log(t);
-                if(sentiment.type == "negative"){
-                  el.style.backgroundColor = "red";
-
-                  console.log("neg");
-                } else if(sentiment.type == "positive"){
-                  console.log("pos");
-                  el.style.backgroundColor = "blue";
-                }
-              }, function(status){
+            getSentiment(text).then(highlight, function(status){
               console.log("error");
-            });}
-
+            });
+          }
             // var replacedText = text.replace(/trump/gi, "Piece of Poop");
 
 
@@ -66,7 +53,7 @@ function getSentiment(headline){
       req.setRequestHeader("X-Mashape-Key", "SslmJdtX8pmshkcU1EX3vJJ2pirSp1HpVrJjsn5FIH75l6mAce");
       req.setRequestHeader("Accept", "application/json");
       req.responseType='json';
-      req.onload = onResponseReceived(headline);
+      req.onload = onResponseReceived;
 
       req.send(null);
 
