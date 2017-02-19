@@ -3,53 +3,88 @@ var testprint = [];
 for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
 
-    for (var j = 0; j < element.childNodes.length; j++) {
-        var node = element.childNodes[j];
-        if (node.nodeType === 3) {
-            var text = node.nodeValue;
-            var sentiment = getSentiment(text);
+    // for (var j = 0; j < element.childNodes.length; j++) {
+        // var node = element.childNodes[j];
+        // if (node.nodeType === 3) {
+
+        function highlight(sentiment){
+          if(sentiment.type == "negative"){
+            element.style.backgroundColor = "red";
+            console.log("neg");
+          } else if(sentiment.type == "positive"){
+            console.log("pos");
+            element.style.backgroundColor = "blue";
+          }
+        }
+
+            // element.className="pos-rel";
+            var text = element.textContent;
+            doTheThing(element, text, highlight);
+                }
+
+            // var neg_highlight = document.createElement('div');
+            // neg_highlight.className="neg-highlight";
+            // var pos_highlight = document.createElement('div');
+            // pos_highlight.className="pos-highlight";
+            // console.log(text);
+            function doTheThing(el,t){
+              getSentiment(t).then(function(sentiment){
+                console.log(t);
+                if(sentiment.type == "negative"){
+                  el.style.backgroundColor = "red";
+
+                  console.log("neg");
+                } else if(sentiment.type == "positive"){
+                  console.log("pos");
+                  el.style.backgroundColor = "blue";
+                }
+              }, function(status){
+              console.log("error");
+            });}
 
             // var replacedText = text.replace(/trump/gi, "Piece of Poop");
 
-            if(sentiment == "negative"){
-              console.log("found negative");
-              element.style.backgroundColor = "red";
-            } else if(sentiment == "positive"){
-              element.style.backgroundColor= "blue";
-            }
 
-            if (testprint.length<3){
-              testprint.push(sentiment);
-            }
             // if (replacedText !== text) {
             //     element.replaceChild(document.createTextNode(replacedText), node);
             // }
-        }
-    }
-}
-console.log(testprint);
+
+
+
+
 
 function getSentiment(headline){
   var urltext = "text=" + headline.split(' ').join('+');
-  var req = new XMLHttpRequest();
-    req.open(
-            "GET",
-            "https://twinword-sentiment-analysis.p.mashape.com/analyze/?" +
-            urltext,
-            true);
+  return new Promise(function(resolve, reject){
+    var req = new XMLHttpRequest();
+      req.open(
+              "GET",
+              "https://twinword-sentiment-analysis.p.mashape.com/analyze/?" +
+              urltext,
+              true);
 
-    req.setRequestHeader("X-Mashape-Key", "SslmJdtX8pmshkcU1EX3vJJ2pirSp1HpVrJjsn5FIH75l6mAce");
-    req.setRequestHeader("Accept", "application/json");
-    req.onload = onResponseReceived;
+      req.setRequestHeader("X-Mashape-Key", "SslmJdtX8pmshkcU1EX3vJJ2pirSp1HpVrJjsn5FIH75l6mAce");
+      req.setRequestHeader("Accept", "application/json");
+      req.responseType='json';
+      req.onload = onResponseReceived(headline);
 
-    req.send(null);
+      req.send(null);
 
-    function onResponseReceived(response) {
-        // console.log("It worked.");
-        // console.log(response.currentTarget.response);
-        var score = JSON.parse(response.currentTarget.response);
-        sentiment = score.type;
-        console.log(sentiment);
-        // return response.currentTarget.response;
-    }
+
+      function onResponseReceived() {
+        var status = req.status;
+        if(status ==200){
+          resolve(req.response);
+        }else {
+          reject(status);
+        }
+          // console.log("It worked.");
+          // console.log(response.currentTarget.response);
+          // var score = JSON.parse(response.currentTarget.response);
+          // var sentimentType = score.type;
+          // return sentimentType;
+                   // return response.currentTarget.response;
+      }
+  });
+
     }
