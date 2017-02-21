@@ -1,43 +1,24 @@
 function highlightSentiment(){
   var elements = document.getElementsByTagName('a');
 
-console.log("in the function");
+console.log("analyzing sentiment..");
 for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
-
-    // for (var j = 0; j < element.childNodes.length; j++) {
-        // var node = element.childNodes[j];
-        // if (node.nodeType === 3) {
-
         function highlight(element, sentiment){
           if(sentiment.type == "negative"){
-            element.style.backgroundColor = "red";
-            console.log("neg");
+            element.style.backgroundColor = "#EEA6A6";
+            // console.log("neg");
+            // console.log(sentiment);
           } else if(sentiment.type == "positive"){
-            console.log("pos");
-            element.style.backgroundColor = "blue";
+            // console.log("pos");
+            element.style.backgroundColor = "#C3E2A6";
           }
         }
-
-            // element.className="pos-rel";
             var text = element.textContent;
-            console.log(text);
-            // var neg_highlight = document.createElement('div');
-            // neg_highlight.className="neg-highlight";
-            // var pos_highlight = document.createElement('div');
-            // pos_highlight.className="pos-highlight";
-            // console.log(text);
             getSentiment(text).then(highlight.bind(null, element), function(status){
               console.log("error");
             });
           }}
-            // var replacedText = text.replace(/trump/gi, "Piece of Poop");
-
-
-            // if (replacedText !== text) {
-            //     element.replaceChild(document.createTextNode(replacedText), node);
-            // }
-
 
 
 
@@ -56,23 +37,17 @@ function getSentiment(headline){
       req.setRequestHeader("Accept", "application/json");
       req.responseType='json';
       req.onload = onResponseReceived;
-
       req.send(null);
-
 
       function onResponseReceived() {
         var status = req.status;
         if(status ==200){
           resolve(req.response);
-        }else {
+        } else {
           reject(status);
         }
       }
   });
+}
 
-    }
-
-
-    // chrome.app.runtime.onLaunched.addListener(function() {
-      highlightSentiment();
-    // });
+highlightSentiment();
