@@ -8,6 +8,10 @@ Navigate to any site that displays its headlines as links. Click on the Charged 
 ##Use
 News sources claim to be neutral, but can often spin headlines and articles to be positive or negative, skewing the reader's judgement of the subject matter without their awareness of it. This tool highlights the sentiment contained in the language used by the news source, and the reader can then assess whether the news is being delivered with any sort of bias. Pay special attention to trends on whether specific topics and individuals are being shown in a predominantly positive or negative light.
 
+##Screenshots
+![nytimes](./nytimes_screenshot.png)
+![fox](./fox_screenshot.png)
+
 ##Background
 Built in JavaScript and a teeny bit of HTML. This extension scans the DOM for headline elements, based on anything under the anchor (or link) tag, ```<a>```, and sends the entire phrase to the Twinword Sentiment Analysis API. This returns a sentiment score and ratio, as well as a rating of positive, negative, or neutral. Based on the sentiment returned by the API, headlines are highlighted in green if they are construed as positive, and red if they are assessed to be more negative.
 
