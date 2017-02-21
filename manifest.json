@@ -3,16 +3,24 @@
     "name": "Soo-Rae's extension",
     "description": "Testing for now",
     "version": "1.0",
+    "browser_action": {
+      "default_icon": "icon.png",
+      "default_popup": "popup.html"
+    },
     "content_scripts": [
         {
-          "matches": ["<all_urls>"],
+          "matches": [
+            "<all_urls>"
+          ],
 
           "all_frames": true,
 
             "js": [
                 "content.js"
             ],
-            "css": ["style.css"],
+            "css": [
+              "style.css"
+            ],
 
             "run_at": "document_end"
         }

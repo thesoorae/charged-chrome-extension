@@ -1,5 +1,7 @@
-var elements = document.getElementsByTagName('a');
-var testprint = [];
+function highlightSentiment(){
+  var elements = document.getElementsByTagName('a');
+
+console.log("in the function");
 for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
 
@@ -7,7 +9,7 @@ for (var i = 0; i < elements.length; i++) {
         // var node = element.childNodes[j];
         // if (node.nodeType === 3) {
 
-        function highlight(sentiment){
+        function highlight(element, sentiment){
           if(sentiment.type == "negative"){
             element.style.backgroundColor = "red";
             console.log("neg");
@@ -25,10 +27,10 @@ for (var i = 0; i < elements.length; i++) {
             // var pos_highlight = document.createElement('div');
             // pos_highlight.className="pos-highlight";
             // console.log(text);
-            getSentiment(text).then(highlight, function(status){
+            getSentiment(text).then(highlight.bind(null, element), function(status){
               console.log("error");
             });
-          }
+          }}
             // var replacedText = text.replace(/trump/gi, "Piece of Poop");
 
 
@@ -65,13 +67,12 @@ function getSentiment(headline){
         }else {
           reject(status);
         }
-          // console.log("It worked.");
-          // console.log(response.currentTarget.response);
-          // var score = JSON.parse(response.currentTarget.response);
-          // var sentimentType = score.type;
-          // return sentimentType;
-                   // return response.currentTarget.response;
       }
   });
 
     }
+
+
+    // chrome.app.runtime.onLaunched.addListener(function() {
+      highlightSentiment();
+    // });
